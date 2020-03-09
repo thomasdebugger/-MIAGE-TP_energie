@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 POINT_DEPART = "im2ag"
 MAX_DIST = 500
 WORK_TIME = 8
@@ -16,6 +18,8 @@ dilivered_package_at_t = 0
 
 visit_list = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/visits.csv')
 
+distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/distances.txt')
+dtime_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/times.txt')
 
 def deliver(next_adress, dilivered_package_at_t):
     #TODO incrémenter dist_tot, et MAJ dilivered_package_at_t
