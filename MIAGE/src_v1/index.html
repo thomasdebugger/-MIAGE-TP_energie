@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Tournées de véhicules électriques</title>
+		<link rel="stylesheet" href="scripts/libs/Leaflet/leaflet.css"/>
+		<script src="scripts/libs/Leaflet/leaflet.js"></script>
+		
+		<script src="scripts/libs/leaflet-omnivore/leaflet-omnivore.min.js"></script>
+
+		<link rel="stylesheet" href="scripts/libs/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.css"/>
+		<script src="scripts/libs/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.js"></script>
+
+		<link rel="stylesheet" href="scripts/libs/leaflet-markercluster/MarkerCluster.css"/>
+		<link rel="stylesheet" href="scripts/libs/leaflet-markercluster/MarkerCluster.Default.css"/>
+		<script src="scripts/libs/leaflet-markercluster/leaflet.markercluster.js"></script>
+		<script src="scripts/libs/Leaflet.PolylineDecorator/leaflet.polylineDecorator.js"></script>
+		
+		<script src="scripts/libs/jquery-3.2.1.min.js"></script>
+		<script src="scripts/libs/jquery-csv/jquery.csv.min.js"></script>
+
+		<link rel="stylesheet" href="css/general.css"/>
+		<link rel="stylesheet" href="css/main.css"/>
+		   
+	</head>
+	<body>
+		<div class="help">
+			<a href="help.html" target="_blank">Help</a> 
+		</div>
+		<div id="mapid"></div>
+		
+		<div class="other_features">
+			<div class="float_right">
+				<label><b>Serveur et fichiers</b></label>
+				<div class="features">
+					<label for="tour_server"  class="parameter_label">Server de calcul de tournées: </label>
+					<input type="text" name="tour_server" id="tour_server" class="parameter_value" 
+						value="http://localhost:23000">
+					<input type="button" id="modify_tours_uri", value="Modify URI" 
+						title="Modifie l'URI à appeler pour calculer les tournées" 
+						class="action_button border-left-rounded border-right-rounded"/>
+				</div>
+				<div class="features">
+					<label for="load_visits" title="Charge les visites à partir du fichier csv" class="parameter_label">Charger les visites:</label>
+					<input type="file"
+							id="load_visits" name="load_visits"
+							accept=".csv,.txt" />
+					<br/>
+					<input type="button" id="show_all_visits" value="Afficher toutes les visites" 
+							title="Afficher toutes les visites" 
+							class="action_button border-left-rounded border-right-rounded"/>		
+					<input type="button" id="clear_visits" value="Efface les visites" 
+							title="Efface les visites" 
+							class="action_button border-left-rounded border-right-rounded"/>
+				</div>
+                <div class="features">
+					<label for="load_tours" title="Charge les tournées à partir d'un fichier" class="parameter_label">Charger les tournées:</label>
+					<input type="file"
+							id="load_tours" name="load_tours"
+							accept=".csv,.txt" />
+					<br/>
+					<input type="button" id="show_all_tours" value="Afficher toutes les tournées" 
+							title="Afficher toutes les tournées" 
+							class="action_button border-left-rounded border-right-rounded"/>		
+					<input type="button" id="clear_tours" value="Efface les tournées" 
+							title="Efface les tournées" 
+							class="action_button border-left-rounded border-right-rounded"/>
+				</div>
+
+				<br/>
+				<input type="button" id="clear_all" value="Efface toutes les couches" title="Efface toutes les couches" 
+					class="action_button border-left-rounded border-right-rounded"/>
+			</div>
+		</div>
+
+		<div class="bottom_div">
+			<form>
+				<div class="float_right">
+					<span id="coord"></span>
+				</div>
+
+				<div class="parameterdiv">	
+
+					<label for="Nombre d'itérations" title="Nombre maximum d'itérations" 
+						class="parameter_label grid_time grid_first_label">Nb max itération</label>
+					<input type="text" name="nb_max_it" id="nb_max_it" 
+						class="parameter_value grid_time grid_first_value" size="6" value="" />	
+
+					<span class="parameter_label grid_time grid_second_label">Rechargement</span>
+					<select name="loading_profile" id="loading_profile" class="grid_time grid_second_value">
+						<option value="0">Slow</option>
+						<option value="1" selected="selected">Medium</option>
+						<option value="2">Fast</option>
+					</select>
+
+					<input type="button" id="call_tours" value="Tours" title="Appel le server pour construire des tournées" 
+						class="action_button main_action_button border-left-rounded border-right-rounded grid_profile grid_third_label"/>	
+
+				</div>
+
+			</form>
+		</div>
+
+		<div class="message">
+			<div id="displayedMessage"></div>
+			<div class="modal"></div>
+		</div>
+		<div class="result_div">
+			<div id="resultDescription"></div>
+		</div>
+
+		<div class="result_div">
+			<table id="resultTable">
+				<thead>
+					<tr>
+						<th>Durée de conduite</th>
+						<th>Distance de conduite</th>
+						<th>Heure de départ</th>
+						<th>Heure d'arrivée</th>
+						<th>Nombre de chargements</th>
+						<th>Durée totale de chargement</th>
+						<th>Nombre de rechargements de véhicules</th>
+						<th>Durée totale de rechargement</th>
+                        <th>Coût total</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		
+		<script src="scripts/remote_server.js"></script>
+		<script src="scripts/utils.js"></script>
+		<script src="scripts/parameters.js"></script>
+		<script src="scripts/topology.js"></script>
+		<script src="scripts/display_tours.js"></script>
+	</body>
+</html>

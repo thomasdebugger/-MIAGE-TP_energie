@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tournées avec rechargement</title>
+        <link rel="stylesheet" href="css/general.css"/>
+        <link rel="stylesheet" href="css/help.css"/>
+    </head>
+	<body>
+
+        <div class="main_title">
+            Tournées avec rechargement
+        </div>
+
+        <div class="parag">
+            L'idée est d'entrer les paramètres et d'appeler le calcul de tournée en cliquant sur le bouton <span class="checkbox_label border-left-rounded border-right-rounded">Tours</span>; 
+            Il faut ensuite afficher les résultats sur la carte ainsi qu'un résumé de la solution courante.
+        </div>
+
+        <div class="parag">
+            <div class="title2"> Suggestion de paramètres d'optimisation (en dessous de la carte)</div>
+            <ul>
+            <li><span class="checkbox_label border-left-rounded border-right-rounded">Nombre maximum d'itérations</span> Entrer un nombre entier</li>
+                        
+            <li><span class="param_name">Rechargement</span>: Vitesse de rechargement.</li>
+            
+            <li><span class="checkbox_label border-left-rounded border-right-rounded">Tours</span> Appelle l'API du calculateur et affiche les résultats sur la carte et le résumé.</li>
+            
+            </ul>
+        </div>
+
+        <div class="parag">
+            <div class="title2">Résultats</div>
+            En dessous des paramètres, ajouter une description des résultats (un exemple de valeurs à afficher est donné).
+            Pour comparer plusieurs solutions, il est possible d'ajouter des couches à la carte et de faire un tableau comparatif.        
+        </div>
+        <div class="parag">
+            <div class="title2">Serveur et fichiers (à droite de la carte)</div>
+            <ul>
+            <li><span class="param_name">Serveur de tournées</span> : URI du serveur de tournées.</li>
+            
+            <li><span class="param_name">Charger les visites</span> : charger le fichier des visites; cliquer sur <span class="checkbox_label border-left-rounded border-right-rounded">Afficher toutes les visites</span> pour afficher les visites.</li>
+
+            <li><span class="param_name">Charger les tournées</span> : charger un fichier de tournées (pour ne pas (r)appeler de serveur); cliquer sur <span class="checkbox_label border-left-rounded border-right-rounded">Afficher toutes les tournées</span> pour afficher les tournées.</li>
+            
+            <li><span class="checkbox_label border-left-rounded border-right-rounded">Efface toutes les couches</span> Efface les visites et tournées de la carte.</li>
+            </ul>
+        </div>   
+        
+    </body>
+    </html>

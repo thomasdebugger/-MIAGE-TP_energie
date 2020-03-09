@@ -1,0 +1,177 @@
+body {
+    background-color: white;
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif; 
+}
+
+.main_title {
+    font-size: 16pt;
+    margin: 20px;
+    text-align: center;
+}
+
+.help {
+    /*position: absolute;
+    top: 10px;
+    left: 1240px;*/
+    margin: 5px;
+    font-size: 10pt;
+}
+
+.help a {
+    margin: 20px;
+}
+
+.parameter_label, .parameter_value {
+    font-size: 10pt;
+    display: inline-block;
+    margin: 3px;
+}
+
+.action_button {
+    padding: 5px 8px;
+
+    font-family: verdana;
+    font-size: 10pt;
+
+    border: 2px solid rgb(150, 150, 150);
+    background-color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.action_button:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.main_action_button {
+    padding: 10px 16px;
+}
+
+.border-left-rounded {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.border-right-rounded {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.checkbox-hidden {
+	display: none;
+}
+.checkbox_label {
+    padding: 5px 5px;
+    margin-right: 10px;
+    width: 100px;
+    font-family: verdana;
+    font-size: 10pt;
+    border: 2px solid rgb(150, 150, 150);
+    background-color: white;
+
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.checkbox_label:hover {
+    background-color: rgb(240, 240, 240);
+}
+input:checked + label {
+  border-color: black;
+}
+
+.direct_distance {
+    font-family: verdana;
+    font-size: 8pt;
+}
+
+.message {
+    margin-left: 30px;
+    margin-top: 20px;
+    font-size: 11pt;
+}
+
+#displayedMessage {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.message_error {
+    color: #aa0000;
+}
+
+.table_results {
+    font-size: 11pt;
+    margin: 5px;
+}
+
+.travel_title {
+    font-weight: bold;
+}
+.travel_detail {
+    padding-left: 20px;
+}
+
+.travel_specific_detail {
+    color: #0275d8;
+}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+   .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .6 ) 
+                url('images/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
+.message.loading {
+    overflow: hidden;   
+}
+.message.loading .modal {
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 10pt;
+    color: #292b2c;
+}
+table, th, td {
+    border-bottom: 1px solid #ddd;
+}
+th {
+    text-align: left;
+    padding: 5px;
+    font-weight: bold;
+}
+td {
+    text-align: left;
+    padding: 5px;
+}
+
+tr td:nth-child(12) {
+    text-align: left;
+    font-size: 9pt;
+}
