@@ -1,6 +1,6 @@
 class Travel:
     def __init__(self):
-        self.time =
+        self.time
         self.storage
         self.dist
 
