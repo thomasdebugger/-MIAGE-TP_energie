@@ -5,7 +5,6 @@ path = '-MIAGE-TP_energie/MIAGE/src_tp/'
 sys.path.append(path)
 from Camion import Camion
 from Travel import Travel
-#id
 
 travels = []
 
@@ -65,23 +64,19 @@ def get_dist_between(from_address, to_address):
     return distances_matrix.item((from_address,to_address))
 
 
-#TODO faire en fonction du temps de travail d'un employé
+# faire en fonction du temps de travail d'un employé
 def get_time_between(from_address, to_address):
     return time_matrix.item((from_address,to_address))
 
 def get_load(next_address):
     return visit['demand'][next_address]
 
-
-
 def has_enough_storage(actual_address, next_address, camion):
     cap = camion.capacity + visit['demand'][next_address]
     return (camion.storage_max) >= cap
 
-
 def to_travel():
     pass
-
 
 def has_enough_time(actual_address, next_address, camion):
     time = camion.actual_time() + time_matrix.item(actual_address, next_address)
@@ -102,11 +97,7 @@ while len(visit_list) > 0: # only DEPOT remaining
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
     while camion.enough_capacity() and camion.enough_storage() and camion.enough_time() and len(visit_list) > 0:
-
         next_address = look_for_neighbor(actual_address)
-        #print(can_go_home(actual_address, next_address, camion))
-        #print(has_enough_time(actual_address, next_address, camion))
-        #print(has_enough_storage(actual_address, next_address, camion))
 
         if not can_go_home(actual_address, next_address, camion) \
                 or not has_enough_time(actual_address, next_address, camion) \
@@ -115,13 +106,17 @@ while len(visit_list) > 0: # only DEPOT remaining
         else:
             camion.storage += get_load(next_address)
             remove_address_visited(next_address)
-
+        
         print(next_address)
-        actual_address = next_address
-        travel.list_visit.append(next_address)
-        camion.travel.append(next_address)
-        camion.capacity += get_dist_between(actual_address, next_address)
-        camion.time += get_time_between(actual_address, next_address)
+        if (actual_address != next_address) :
+            actual_address = next_address
+            travel.list_visit.append(next_address)
+            camion.travel.append(next_address)
+            camion.capacity += get_dist_between(actual_address, next_address)
+            camion.time += get_time_between(actual_address, next_address)
+        else :
+            break
+
 
     camion.travel.append(DEPOT)
     driver_list.append(camion)
@@ -132,5 +127,3 @@ for driver in driver_list:
         for travel in driver.get_camion_travel():
             print(driver.get_camion_travel())
             f.write(str(travel)+',')
-
-
