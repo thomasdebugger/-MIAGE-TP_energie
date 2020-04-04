@@ -126,9 +126,12 @@ while len(visit_list) > 0: # only DEPOT remaining
         camion.capacity += get_dist_between(actual_address, next_address)
         camion.time += get_time_between(actual_address, next_address)
 
+    camion.travel.append(travel)
     driver_list.append(camion)
-    travels.append(travel)
+    #travels.append(travel)
 
 for driver in driver_list:
-    with open(path + "camion_" driver. + ".txt", "w") as f:
-
+    with open(path + "camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
+        for travel in driver.get_camion_travel:
+            f.write(str(travel))
+            f.close

@@ -8,6 +8,7 @@ class Camion :
         self.storage = 0
         self.time = 300.0
         self.capacity = 0
+        self.travel = []
 
     def load_package(self, nb_package):
         self.time += nb_package * 10
@@ -32,3 +33,7 @@ class Camion :
 
     def get_camion_id(self):
         return self.id_camion
+
+    def get_camion_travel(self):
+        return self.travel
+
