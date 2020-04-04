@@ -93,7 +93,7 @@ def remove_address_visited() :
 
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
-    print("reste : ", visit_list)
+    next_address = DEPOT
     id_camion += 1
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
@@ -123,15 +123,18 @@ while len(visit_list) > 0: # only DEPOT remaining
 
         actual_address = next_address
         travel.list_visit.append(next_address)
+        camion.travel.append(next_address)
         camion.capacity += get_dist_between(actual_address, next_address)
         camion.time += get_time_between(actual_address, next_address)
 
-    camion.travel.append(travel)
+    camion.travel.append(DEPOT)
     driver_list.append(camion)
     #travels.append(travel)
 
 for driver in driver_list:
-    with open(path + "camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
-        for travel in driver.get_camion_travel:
-            f.write(str(travel))
-            f.close
+    with open("./camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
+        for travel in driver.get_camion_travel():
+            print(driver.get_camion_travel())
+            f.write(str(travel)+',')
+
+
