@@ -83,7 +83,6 @@ def has_enough_time(actual_address, next_address, camion):
     return (camion.time_max) >= time
 
 def remove_address_visited(next_address) :
-    print("n" + str(next_address))
     for visit in visit_list :
         if visit == next_address :
             index = visit_list.index(visit)
@@ -91,17 +90,17 @@ def remove_address_visited(next_address) :
 
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
-    next_address = DEPOT
     id_camion += 1
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
     next_address = look_for_neighbor(actual_address)
+
     while can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) and has_enough_storage(actual_address, next_address, camion) and len(visit_list) > 0:
+        next_address = look_for_neighbor(actual_address)
         camion.storage += get_load(next_address)
         remove_address_visited(next_address)
-        
-        print(next_address)
+
         if (actual_address != next_address) :
             actual_address = next_address
             travel.list_visit.append(next_address)
@@ -110,9 +109,6 @@ while len(visit_list) > 0: # only DEPOT remaining
             camion.time += get_time_between(actual_address, next_address)
         else :
             break
-        
-        next_address = look_for_neighbor(actual_address)
-
     next_address = DEPOT
     camion.travel.append(next_address)
     driver_list.append(camion)
