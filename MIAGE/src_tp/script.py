@@ -26,7 +26,7 @@ dilivered_package_at_t = 0
 driver_list = []
 
 
-visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/visits_test.csv')
+visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
 print(visit_list)
@@ -88,8 +88,11 @@ def has_enough_time(actual_address, next_address, camion):
     time = camion.actual_time() + time_matrix.item(actual_address, next_address)
     return (camion.time_max) >= time
 
-def remove_address_visited() :
-        visit_list.pop(next_address-1)
+def remove_address_visited(next_address) :
+    for visit in visit_list :
+        if visit == next_address :
+            index = visit_list.index(visit)
+            visit_list.pop(index)
 
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
@@ -112,14 +115,7 @@ while len(visit_list) > 0: # only DEPOT remaining
 
         else:
             camion.storage += get_load(next_address)
-        #travel = deliver(next_address, dilivered_package_at_t)
-
-    #        dist_tot += travel.dist
-    #        time_tot += travel.time
-    #        cap_tot += travel.storage
-    #        deliver_address.pop(actual_address)
-    #       actual_address = next_address
-            remove_address_visited()
+            remove_address_visited(next_address)
 
         actual_address = next_address
         travel.list_visit.append(next_address)
