@@ -29,3 +29,6 @@ class Camion :
 
     def enough_storage(self):
         return self.storage_max >= self.storage
+
+    def get_camion_id(self):
+        return self.id_camion
