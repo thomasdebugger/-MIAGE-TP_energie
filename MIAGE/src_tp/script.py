@@ -38,7 +38,7 @@ def deliver(next_adress, dilivered_package_at_t):
     pass
 
 
-#TODO on cherche tous les voisins, et nous renvoie le plus proche en terme de temps et de distance
+# on cherche tous les voisins, et nous renvoie le plus proche en terme de temps et de distance
 def look_for_neighbor(actual_adress):
     min_dist = 100000.0
     adress_ = -1
@@ -47,16 +47,19 @@ def look_for_neighbor(actual_adress):
         if min_dist > distances_matrix[actual_adress,adress] and distances_matrix[actual_adress,adress] != 0.0:
             min_dist = distances_matrix[actual_adress,adress]
             adress_ = adress
+
+    if adress_ == -1 :
+        adress_ = DEPOT
+
     return adress_
 
-#TODO renvoie un boolean, vérifie si on a assez d'autonomie pour rentrer à la maison
+# renvoie un boolean, vérifie si on a assez d'autonomie pour rentrer à la maison
 def can_go_home(actual_adress, next_adress, cap_tot):
     dist = get_dist_between(actual_adress,next_adress) + get_dist_between(next_adress,DEPOT)
-    return camion.actual_capacity() > dist
+    return camion.actual_capacity() >= dist
 
 
 def get_dist_between(from_adress, to_adress):
-    #TODO renvoie la distance entre 2 points
     return distances_matrix.item((from_adress,to_adress))
 
 
@@ -93,8 +96,6 @@ while len(visit_list) > 0:
     while camion.enough_capacity() and camion.enough_storage() and camion.enough_time():
         next_adress = look_for_neighbor(actual_adress)
 
-        if next_adress == -1:
-            next_adress = DEPOT
         #print(can_go_home(actual_adress, next_adress, camion))
         #print(has_enough_time(actual_adress, next_adress, camion))
         print(has_enough_storage(actual_adress, next_adress, camion))
@@ -102,19 +103,11 @@ while len(visit_list) > 0:
         if not can_go_home(actual_adress, next_adress, camion) \
                 or not has_enough_time(actual_adress, next_adress, camion) \
                 or not has_enough_storage(actual_adress, next_adress, camion) :
-
             next_adress = DEPOT
-            camion.capacity += get_dist_between(actual_adress, next_adress)
-            camion.time += get_time_between(actual_adress, next_adress)
 
         else:
-            camion.capacity += get_dist_between(actual_adress,next_adress)
-            camion.time += get_time_between(actual_adress,next_adress)
             camion.storage += get_load(next_adress)
-
-            visit_list.pop(next_adress)
-            actual_adress = next_adress
-            travel.list_visit.append(next_adress)
+            visit_list.remove(next_adress)
             print(travel.list_visit)
 
         #travel = deliver(next_adress, dilivered_package_at_t)
@@ -123,7 +116,12 @@ while len(visit_list) > 0:
     #        time_tot += travel.time
     #        cap_tot += travel.storage
     #        deliver_adress.pop(actual_adress)
-     #       actual_adress = next_adress
+    #       actual_adress = next_adress
+
+        actual_adress = next_adress
+        travel.list_visit.append(next_adress)
+        camion.capacity += get_dist_between(actual_adress, next_adress)
+        camion.time += get_time_between(actual_adress, next_adress)
 
     driver_list.append(camion)
 
