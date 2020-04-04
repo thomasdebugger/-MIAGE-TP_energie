@@ -1,0 +1,4 @@
+visit_id,visit_name,visit_lat,visit_lon,demand
+0,Depot,45.75985,4.893707,0
+1,V1,45.728003,4.87379,24
+2,V2,45.747008,4.881427,23
