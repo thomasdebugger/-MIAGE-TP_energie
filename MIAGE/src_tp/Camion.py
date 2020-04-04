@@ -6,9 +6,8 @@ class Camion :
         self.time_max = time
         self.capacity_max = capacity
         self.storage = 0
-        self.time = 300
+        self.time = 300.0
         self.capacity = 0
-        self.travel = []
 
     def load_package(self, nb_package):
         self.time += nb_package * 10
