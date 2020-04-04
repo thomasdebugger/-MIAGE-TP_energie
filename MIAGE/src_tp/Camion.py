@@ -22,9 +22,6 @@ class Camion :
     def actual_capacity(self):
         return self.capacity_max - self.capacity
 
-    def enough_capacity(self):
-        return self.capacity_max >= self.capacity
-
     def enough_time(self):
         return self.time_max >= self.time
 

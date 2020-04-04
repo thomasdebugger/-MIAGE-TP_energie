@@ -29,7 +29,6 @@ driver_list = []
 visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
-print(visit_list)
 
 distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/distances.txt')
 time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/times.txt')
@@ -89,6 +88,7 @@ def has_enough_time(actual_address, next_address, camion):
     return (camion.time_max) >= time
 
 def remove_address_visited(next_address) :
+    print("n" + str(next_address))
     for visit in visit_list :
         if visit == next_address :
             index = visit_list.index(visit)
@@ -102,8 +102,8 @@ while len(visit_list) > 0: # only DEPOT remaining
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
     while camion.enough_capacity() and camion.enough_storage() and camion.enough_time() and len(visit_list) > 0:
-        next_address = look_for_neighbor(actual_address)
 
+        next_address = look_for_neighbor(actual_address)
         #print(can_go_home(actual_address, next_address, camion))
         #print(has_enough_time(actual_address, next_address, camion))
         #print(has_enough_storage(actual_address, next_address, camion))
@@ -112,11 +112,11 @@ while len(visit_list) > 0: # only DEPOT remaining
                 or not has_enough_time(actual_address, next_address, camion) \
                 or not has_enough_storage(actual_address, next_address, camion) :
             next_address = DEPOT
-
         else:
             camion.storage += get_load(next_address)
             remove_address_visited(next_address)
 
+        print(next_address)
         actual_address = next_address
         travel.list_visit.append(next_address)
         camion.travel.append(next_address)
