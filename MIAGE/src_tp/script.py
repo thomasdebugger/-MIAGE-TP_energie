@@ -96,16 +96,10 @@ while len(visit_list) > 0: # only DEPOT remaining
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
-    while camion.enough_capacity() and camion.enough_storage() and camion.enough_time() and len(visit_list) > 0:
-        next_address = look_for_neighbor(actual_address)
-
-        if not can_go_home(actual_address, next_address, camion) \
-                or not has_enough_time(actual_address, next_address, camion) \
-                or not has_enough_storage(actual_address, next_address, camion) :
-            next_address = DEPOT
-        else:
-            camion.storage += get_load(next_address)
-            remove_address_visited(next_address)
+    next_address = look_for_neighbor(actual_address)
+    while can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) and has_enough_storage(actual_address, next_address, camion) and len(visit_list) > 0:
+        camion.storage += get_load(next_address)
+        remove_address_visited(next_address)
         
         print(next_address)
         if (actual_address != next_address) :
@@ -116,9 +110,11 @@ while len(visit_list) > 0: # only DEPOT remaining
             camion.time += get_time_between(actual_address, next_address)
         else :
             break
+        
+        next_address = look_for_neighbor(actual_address)
 
-
-    camion.travel.append(DEPOT)
+    next_address = DEPOT
+    camion.travel.append(next_address)
     driver_list.append(camion)
     #travels.append(travel)
 
