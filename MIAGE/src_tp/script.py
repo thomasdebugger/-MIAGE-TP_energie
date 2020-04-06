@@ -126,7 +126,12 @@ while len(visit_list) > 0: # only DEPOT remaining
             camion.time += package_time
         else :
             break
-        if not can_go_home():
+        if not can_go_home(actual_address, next_address, camion):
+            next_adress = DEPOT
+            camion.travel.append(next_address)
+            camion.capacity += get_dist_between(actual_address, next_address)
+            package_time = bag_time_calcul(0, get_time_between(actual_address, next_address))
+            camion.time += package_time
             reload()
 
     next_address = DEPOT
