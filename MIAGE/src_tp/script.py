@@ -103,6 +103,10 @@ def remove_address_visited(next_address) :
             index = visit_list.index(visit)
             visit_list.pop(index)
 
+def camionCanTravel(actual_address, next_address, camion):
+    return can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) \
+            and has_enough_storage(actual_address, next_address, camion)
+
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
     id_camion += 1
@@ -111,8 +115,7 @@ while len(visit_list) > 0: # only DEPOT remaining
 
     next_address = look_for_neighbor(actual_address)
 
-    while can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) \
-            and has_enough_storage(actual_address, next_address, camion) and len(visit_list) > 0:
+    while camionCanTravel(actual_address, next_address, camion) and len(visit_list) > 0:
         next_address = look_for_neighbor(actual_address)
         camion.storage += get_load(next_address)
         remove_address_visited(next_address)
