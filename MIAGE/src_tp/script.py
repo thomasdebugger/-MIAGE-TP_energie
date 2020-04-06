@@ -14,6 +14,9 @@ MAX_DIST = 500
 WORK_TIME = 28800
 LOAD_PACKAGE = 600
 LOAD_TIME = 60
+RELOAD_SLOW = 60
+RELOAD_MEDIUM = 180
+RELOAD_FAST = 480
 
 package_time = 0
 time_tot = 0
@@ -74,6 +77,15 @@ def get_time_between(from_address, to_address):
 def get_load(next_address):
     return visit['demand'][next_address]
 
+def reload(type):
+    if type == "slow" :
+        camion.time += RELOAD_SLOW
+    if type == "medium":
+        camion.time += RELOAD_MEDIUM
+    if type == "fast":
+        camion.time += RELOAD_FAST
+    camion.capacity = 0
+
 def has_enough_storage(actual_address, next_address, camion):
     cap = camion.capacity + visit['demand'][next_address]
     return (camion.storage_max) >= cap
@@ -114,7 +126,11 @@ while len(visit_list) > 0: # only DEPOT remaining
             camion.time += package_time
         else :
             break
+        if not can_go_home():
+            reload()
+
     next_address = DEPOT
+
     camion.travel.append(next_address)
     driver_list.append(camion)
     #travels.append(travel)
