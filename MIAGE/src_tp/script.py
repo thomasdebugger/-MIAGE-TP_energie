@@ -82,7 +82,7 @@ def to_travel():
     pass
 
 def has_enough_time(actual_address, next_address, camion):
-    time = camion.actual_time() + time_matrix.item(actual_address, next_address)
+    time = camion.time + time_matrix.item(actual_address, next_address)
     return (camion.time_max) >= time
 
 def remove_address_visited(next_address) :
@@ -112,8 +112,6 @@ while len(visit_list) > 0: # only DEPOT remaining
             camion.capacity += get_dist_between(actual_address, next_address)
             package_time = bag_time_calcul(get_load(next_address), get_time_between(actual_address, next_address))
             camion.time += package_time
-
-
         else :
             break
     next_address = DEPOT
@@ -121,6 +119,7 @@ while len(visit_list) > 0: # only DEPOT remaining
     driver_list.append(camion)
     #travels.append(travel)
 
+    print(camion.actual_time())
 for driver in driver_list:
     with open("./camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
         for travel in driver.get_camion_travel():

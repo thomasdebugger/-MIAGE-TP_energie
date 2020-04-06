@@ -6,7 +6,7 @@ class Camion :
         self.time_max = time
         self.capacity_max = capacity
         self.storage = 0
-        self.time = 300.0
+        self.time = 0
         self.capacity = 0
         self.travel = []
 
@@ -24,6 +24,9 @@ class Camion :
 
     def enough_time(self):
         return self.time_max >= self.time
+
+    def enough_capacity(self):
+        return self.capacity_max >= self.capacity
 
     def enough_storage(self):
         return self.storage_max >= self.storage
