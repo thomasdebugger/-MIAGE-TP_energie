@@ -28,12 +28,12 @@ dilivered_package_at_t = 0
 
 driver_list = []
 
-visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/visits.csv')
+visit = pd.read_csv('/home/virgil/EspaceProg/GitDepots/-MIAGE-TP_energie/MIAGE/Example/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
 
-distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
-time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
+distances_matrix = np.loadtxt('/home/virgil/EspaceProg/GitDepots/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
+time_matrix = np.loadtxt('/home/virgil/EspaceProg/GitDepots/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
 
 def deliver(next_address, dilivered_package_at_t):
     #TODO incrémenter dist_tot, et MAJ dilivered_package_at_t
@@ -107,19 +107,18 @@ def camionCanTravel(actual_address, next_address, camion):
 def doTravel(camion, next_address):
     camion.storage += get_load(next_address)
     camion.capacity += get_dist_between(actual_address, next_address)
-    camion.travel.append(next_address)
     package_time = bag_time_calcul(get_load(next_address), get_time_between(actual_address, next_address))
     camion.time += package_time
-
-    actual_address = next_address 
+    camion.travel.append(next_address)
 
     travel.list_visit.append(next_address)
+    actual_address = next_address 
     remove_address_visited(next_address)
 
-def reloadToDepot(camion, next_address):
-    camion.travel.append(next_address)
+def reloadToDepot(camion, next_address, package_time):
     camion.capacity += get_dist_between(actual_address, next_address)
     camion.time += package_time
+    camion.travel.append(next_address)
 
     package_time = bag_time_calcul(0, get_time_between(actual_address, next_address))
     reloadByType()
@@ -132,17 +131,14 @@ while len(visit_list) > 0: # only DEPOT remaining
 
     next_address = look_for_neighbor(actual_address)
 
-    while camionCanTravel(actual_address, next_address, camion) and len(visit_list) > 0:
-        if (actual_address != DEPOT):
-            doTravel(camion, next_address)
-        else :
-            break
+    while camionCanTravel(actual_address, next_address, camion):
+        doTravel(camion, next_address)
+        actual_address = next_address
+        next_address = look_for_neighbor(actual_address)
 
     if not can_go_home(actual_address, next_address, camion):
         next_adress = DEPOT
-        reloadToDepot(camion, next_address)
-    else:
-        next_address = look_for_neighbor(actual_address)
+        reloadToDepot(camion, next_address, package_time)
 
     camion.travel.append(next_address)
     driver_list.append(camion)
