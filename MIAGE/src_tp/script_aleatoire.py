@@ -13,9 +13,8 @@ DEPOT = 0
 MAX_DIST = 500
 WORK_TIME = 28800
 LOAD_PACKAGE = 600
-LOAD_TIME = 60
 
-package_time = 0
+
 time_tot = 0
 dist_tot = 0
 cap_tot = 0
@@ -26,12 +25,12 @@ dilivered_package_at_t = 0
 driver_list = []
 
 
-visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/visits.csv')
+visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
 
-distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
-time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
+distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/distances.txt')
+time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/Example/times.txt')
 
 
 def deliver(next_address, dilivered_package_at_t):
@@ -39,8 +38,6 @@ def deliver(next_address, dilivered_package_at_t):
     #actual_address = next_adres
     pass
 
-def bag_time_calcul(nb_bag, dist_time):
-    return LOAD_TIME*nb_bag + dist_time
 
 # on cherche tous les voisins, et nous renvoie le plus proche en terme de temps et de distance
 def look_for_neighbor(actual_address):
@@ -99,8 +96,7 @@ while len(visit_list) > 0: # only DEPOT remaining
 
     next_address = look_for_neighbor(actual_address)
 
-    while can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) \
-            and has_enough_storage(actual_address, next_address, camion) and len(visit_list) > 0:
+    while can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) and has_enough_storage(actual_address, next_address, camion) and len(visit_list) > 0:
         next_address = look_for_neighbor(actual_address)
         camion.storage += get_load(next_address)
         remove_address_visited(next_address)
@@ -110,10 +106,7 @@ while len(visit_list) > 0: # only DEPOT remaining
             travel.list_visit.append(next_address)
             camion.travel.append(next_address)
             camion.capacity += get_dist_between(actual_address, next_address)
-            package_time = bag_time_calcul(get_load(next_address), get_time_between(actual_address, next_address))
-            camion.time += package_time
-
-
+            camion.time += get_time_between(actual_address, next_address)
         else :
             break
     next_address = DEPOT
@@ -124,4 +117,5 @@ while len(visit_list) > 0: # only DEPOT remaining
 for driver in driver_list:
     with open("./camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
         for travel in driver.get_camion_travel():
+            print(driver.get_camion_travel())
             f.write(str(travel)+',')

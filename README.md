@@ -3,8 +3,6 @@ TP energie
 
 lib à installer 
 
-
-
 numpy==1.18.1
 pandas==1.0.1
 python-dateutil==2.8.1
