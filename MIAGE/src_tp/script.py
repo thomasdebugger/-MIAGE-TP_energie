@@ -10,7 +10,7 @@ travels = []
 
 DEPOT = 0
 
-MAX_DIST = 500
+MAX_DIST = 50.0
 WORK_TIME = 28800
 LOAD_PACKAGE = 600
 LOAD_TIME = 60
@@ -18,7 +18,7 @@ RELOAD_SLOW = 60
 RELOAD_MEDIUM = 180
 RELOAD_FAST = 480
 
-package_time = 0
+package_time = 10
 time_tot = 0
 dist_tot = 0
 cap_tot = 0
@@ -74,14 +74,13 @@ def get_time_between(from_address, to_address):
 def get_load(next_address):
     return visit['demand'][next_address]
 
-def reloadByType(type):
+def reloadByType(type, camion):
     if type == "slow" :
         camion.time += RELOAD_SLOW
     if type == "medium":
         camion.time += RELOAD_MEDIUM
     if type == "fast":
         camion.time += RELOAD_FAST
-    camion.capacity = 0
 
 def has_enough_storage(actual_address, next_address, camion):
     cap = camion.capacity + visit['demand'][next_address]
@@ -101,7 +100,7 @@ def remove_address_visited(next_address) :
             visit_list.pop(index)
 
 def camionCanTravel(actual_address, next_address, camion):
-    return can_go_home(actual_address, next_address, camion) and has_enough_time(actual_address, next_address, camion) \
+    return has_enough_time(actual_address, next_address, camion) \
             and has_enough_storage(actual_address, next_address, camion)
 
 def doTravel(camion, actual_address, next_address):
@@ -112,45 +111,39 @@ def doTravel(camion, actual_address, next_address):
     camion.travel.append(next_address)
 
     travel.list_visit.append(next_address)
-    actual_address = next_address 
     remove_address_visited(next_address)
 
-def reloadToDepot(camion, next_address, package_time):
-    camion.travel.append(next_address)
-    camion.capacity = 0
+def reloadToDepot(camion, type):
     camion.storage = 0
-    camion.time += package_time
-    camion.travel.append(next_address)
-
-    package_time = bag_time_calcul(0, get_time_between(actual_address, next_address))
-    reloadByType()
+    camion.capacity = 0
+    reloadByType(type, camion)
 
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
     id_camion += 1
+    actual_address = DEPOT
+    print(id_camion)
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
     next_address = look_for_neighbor(actual_address)
 
-    while camionCanTravel(actual_address, next_address, camion):
-        print(camion.time)
-        print(camion.capacity)
-        print(camion.storage)
-        print(next_address)
+    while camionCanTravel(actual_address, next_address, camion) and actual_address != next_address:
+
+        if not can_go_home(actual_address, next_address, camion):
+            reloadToDepot(camion, 'fast')
+            next_address = DEPOT
+
         doTravel(camion, actual_address, next_address)
+        print(actual_address)
+        print(next_address)
+
         actual_address = next_address
         next_address = look_for_neighbor(actual_address)
-
-    if not can_go_home(actual_address, next_address, camion):
-        print('test')
-        next_adress = DEPOT
-        reloadToDepot(camion, next_address, package_time)
 
     camion.travel.append(next_address)
     driver_list.append(camion)
     #travels.append(travel)
-    print(camion.actual_time())
 
 for driver in driver_list:
     with open("./camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
