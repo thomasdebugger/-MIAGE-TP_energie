@@ -117,7 +117,8 @@ def doTravel(camion, actual_address, next_address):
 
 def reloadToDepot(camion, next_address, package_time):
     camion.travel.append(next_address)
-    camion.capacity += get_dist_between(actual_address, next_address)
+    camion.capacity = 0
+    camion.storage = 0
     camion.time += package_time
     camion.travel.append(next_address)
 
@@ -133,11 +134,16 @@ while len(visit_list) > 0: # only DEPOT remaining
     next_address = look_for_neighbor(actual_address)
 
     while camionCanTravel(actual_address, next_address, camion):
+        print(camion.time)
+        print(camion.capacity)
+        print(camion.storage)
+        print(next_address)
         doTravel(camion, actual_address, next_address)
         actual_address = next_address
         next_address = look_for_neighbor(actual_address)
 
     if not can_go_home(actual_address, next_address, camion):
+        print('test')
         next_adress = DEPOT
         reloadToDepot(camion, next_address, package_time)
 
