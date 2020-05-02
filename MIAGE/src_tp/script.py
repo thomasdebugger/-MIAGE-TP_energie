@@ -18,10 +18,13 @@ RELOAD_SLOW = 60
 RELOAD_MEDIUM = 180
 RELOAD_FAST = 480
 
+CAMION_SCORE = 50
+
 package_time = 10
 time_tot = 0
 dist_tot = 0
 cap_tot = 0
+score = 0
 
 actual_address = DEPOT
 dilivered_package_at_t = 0
@@ -113,6 +116,7 @@ def doTravel(camion, actual_address, next_address):
     travel.list_visit.append(next_address)
     remove_address_visited(next_address)
 
+
 def reloadToDepot(camion, type):
     camion.storage = 0
     camion.capacity = 0
@@ -121,8 +125,10 @@ def reloadToDepot(camion, type):
 id_camion = 0
 while len(visit_list) > 0: # only DEPOT remaining
     id_camion += 1
+    score += CAMION_SCORE
+
     actual_address = DEPOT
-    print(id_camion)
+
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
 
@@ -135,8 +141,7 @@ while len(visit_list) > 0: # only DEPOT remaining
             next_address = DEPOT
 
         doTravel(camion, actual_address, next_address)
-        print(actual_address)
-        print(next_address)
+        score += get_dist_between(actual_address, next_address)
 
         actual_address = next_address
         next_address = look_for_neighbor(actual_address)
@@ -149,3 +154,5 @@ for driver in driver_list:
     with open("./camions/camion_" + str(driver.get_camion_id()) + ".txt", "w") as f:
         for travel in driver.get_camion_travel():
             f.write(str(travel)+',')
+
+print("score = ", score)
