@@ -5,6 +5,7 @@ path = '-MIAGE-TP_energie/MIAGE/src_tp/'
 sys.path.append(path)
 from Camion import Camion
 from Travel import Travel
+from Score import Score
 
 travels = []
 
@@ -18,7 +19,7 @@ RELOAD_SLOW = 60
 RELOAD_MEDIUM = 180
 RELOAD_FAST = 480
 
-CAMION_SCORE = 50
+CAMION_SCORE = 50.0
 
 package_time = 10
 time_tot = 0
@@ -52,7 +53,7 @@ def look_for_neighbor(actual_address):
     address_ = -1
 
     for address in visit_list:
-        if min_dist > distances_matrix[actual_address,address] and distances_matrix[actual_address,address] != 0.0:
+        if min_dist > distances_matrix[actual_address,address] and actual_address != address :
             min_dist = distances_matrix[actual_address,address]
             address_ = address
 
@@ -123,25 +124,31 @@ def reloadToDepot(camion, type):
     reloadByType(type, camion)
 
 id_camion = 0
+score = Score()
 while len(visit_list) > 0: # only DEPOT remaining
     id_camion += 1
-    score += CAMION_SCORE
+    score.score += CAMION_SCORE
 
     actual_address = DEPOT
 
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
+    local_score = CAMION_SCORE
+
 
     next_address = look_for_neighbor(actual_address)
 
     while camionCanTravel(actual_address, next_address, camion) and actual_address != next_address:
-
         if not can_go_home(actual_address, next_address, camion):
             reloadToDepot(camion, 'fast')
             next_address = DEPOT
 
         doTravel(camion, actual_address, next_address)
-        score += get_dist_between(actual_address, next_address)
+
+        score.evaluate(get_dist_between(actual_address, next_address))
+        score.travel_score.append(score.score)
+        local_score += get_dist_between(actual_address, next_address)
+        camion.score_camion.append(local_score)
 
         actual_address = next_address
         next_address = look_for_neighbor(actual_address)
@@ -155,4 +162,8 @@ for driver in driver_list:
         for travel in driver.get_camion_travel():
             f.write(str(travel)+',')
 
-print("score = ", score)
+print("score = ", score.score)
+for driver in driver_list :
+    print("driver numero : ", driver.id_camion)
+    print("score :", driver.score_camion)
+print(score.travel_score)

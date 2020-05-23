@@ -9,6 +9,7 @@ class Camion :
         self.time = 0
         self.capacity = 0
         self.travel = []
+        self.score_camion = [0.0]
 
     def load_package(self, nb_package):
         self.time += nb_package * 10

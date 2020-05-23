@@ -5,6 +5,7 @@ path = '-MIAGE-TP_energie/MIAGE/src_tp/'
 sys.path.append(path)
 from Camion import Camion
 from Travel import Travel
+from Score import Score
 import random
 
 travels = []
@@ -19,14 +20,12 @@ RELOAD_SLOW = 60
 RELOAD_MEDIUM = 180
 RELOAD_FAST = 480
 
-CAMION_SCORE = 50
+CAMION_SCORE = 50.0
 
 package_time = 10
 time_tot = 0
 dist_tot = 0
 cap_tot = 0
-
-score = 0
 
 actual_address = DEPOT
 dilivered_package_at_t = 0
@@ -39,11 +38,6 @@ visit_list.pop(0)
 
 distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
 time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
-
-def deliver(next_address, dilivered_package_at_t):
-    #TODO incrémenter dist_tot, et MAJ dilivered_package_at_t
-    #actual_address = next_adres
-    pass
 
 def bag_time_calcul(nb_bag, dist_time):
     return LOAD_TIME*nb_bag + dist_time
@@ -82,8 +76,6 @@ def has_enough_storage(actual_address, next_address, camion):
     cap = camion.capacity + visit['demand'][next_address]
     return (camion.storage_max) >= cap
 
-def to_travel():
-    pass
 
 def has_enough_time(actual_address, next_address, camion):
     time = camion.time + time_matrix.item(actual_address, next_address)
@@ -115,11 +107,17 @@ def reloadToDepot(camion, type):
     reloadByType(type, camion)
 
 id_camion = 0
+score = Score()
 while len(visit_list) > 0: # only DEPOT remaining
     id_camion += 1
+
+    score.score += CAMION_SCORE
+
     actual_address = DEPOT
     travel = Travel(id_camion)
     camion = Camion(id_camion, LOAD_PACKAGE, WORK_TIME, MAX_DIST)
+
+    local_score = CAMION_SCORE
 
     next_address = look_for_neighbor()
 
@@ -131,7 +129,11 @@ while len(visit_list) > 0: # only DEPOT remaining
 
         doTravel(camion, actual_address, next_address)
 
-        score += get_dist_between(actual_address, next_address)
+        score.evaluate(get_dist_between(actual_address, next_address))
+        score.travel_score.append(score.score)
+        local_score += get_dist_between(actual_address, next_address)
+        camion.score_camion.append(local_score)
+
 
         actual_address = next_address
         next_address = look_for_neighbor()
@@ -145,4 +147,7 @@ for driver in driver_list:
         for travel in driver.get_camion_travel():
             f.write(str(travel)+',')
 
-print("score = ", score)
+for driver in driver_list :
+    print("driver numero : ", driver.id_camion)
+    print("score :", driver.score_camion)
+print(score.travel_score)
