@@ -18,3 +18,5 @@ python3 script_aleatoire.py
 
 ## Dossier camions 
 Pour les solutions
+
+Chaque fichier montre le trajet à effectuer par le camion
