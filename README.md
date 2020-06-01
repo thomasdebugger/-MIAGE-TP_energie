@@ -9,8 +9,12 @@ python-dateutil==2.8.1
 pytz==2019.3
 six==1.14.0
 
-Pour l'exectuion
+##Pour l'exectuion de l'agorithme glouton 
 python3 script.py 
 
-Dossier camions 
+
+##Pour l'execution de l'algorithme aléatoire 
+python3 script_aleatoire.py 
+
+##Dossier camions 
 Pour les solutions
