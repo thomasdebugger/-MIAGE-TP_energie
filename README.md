@@ -10,10 +10,14 @@ pytz==2019.3
 six==1.14.0
 
 ## Pour l'exectuion de l'agorithme glouton 
+se placer dans le dossier source des fichiers 
+cd -MIAGE-TP_energie/MIAGE/src_tp/
 python3 script.py 
 
 
 ## Pour l'execution de l'algorithme aléatoire 
+se placer dans le dossier source des fichiers
+cd -MIAGE-TP_energie/MIAGE/src_tp/
 python3 script_aleatoire.py 
 
 ## Dossier camions 
