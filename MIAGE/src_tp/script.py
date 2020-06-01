@@ -32,12 +32,12 @@ dilivered_package_at_t = 0
 
 driver_list = []
 
-visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/visits.csv')
+visit = pd.read_csv('../lyon_200_2_3/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
 
-distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
-time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
+distances_matrix = np.loadtxt('../lyon_200_2_3/distances.txt')
+time_matrix = np.loadtxt('../lyon_200_2_3/times.txt')
 
 def deliver(next_address, dilivered_package_at_t):
     #TODO incrémenter dist_tot, et MAJ dilivered_package_at_t

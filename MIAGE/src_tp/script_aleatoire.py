@@ -32,12 +32,12 @@ dilivered_package_at_t = 0
 
 driver_list = []
 
-visit = pd.read_csv('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/visits.csv')
+visit = pd.read_csv('../lyon_200_2_3/visits.csv')
 visit_list = visit['visit_id'].values.tolist()
 visit_list.pop(0)
 
-distances_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/distances.txt')
-time_matrix = np.loadtxt('/Users/cbml5653/Documents/Cours_energie/-MIAGE-TP_energie/MIAGE/lyon_200_2_3/times.txt')
+distances_matrix = np.loadtxt('../lyon_200_2_3/distances.txt')
+time_matrix = np.loadtxt('../lyon_200_2_3/times.txt')
 
 def bag_time_calcul(nb_bag, dist_time):
     return LOAD_TIME*nb_bag + dist_time
@@ -147,7 +147,8 @@ for driver in driver_list:
         for travel in driver.get_camion_travel():
             f.write(str(travel)+',')
 
+print("score = ", score.score)
 for driver in driver_list :
     print("driver numero : ", driver.id_camion)
     print("score :", driver.score_camion)
-print(score.travel_score)
+
